@@ -13,6 +13,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+      // create searchbytrait function : 
       break;
       default:
     app(people); // restart app
@@ -37,13 +38,15 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    // Giancarlo TODO -  : get person's info
+    // create function to print out person info
     break;
     case "family":
-    // TODO: get person's family
+    // Craig TODO: get person's family
+    //create a function to print out persons family 
     break;
     case "descendants":
-    // TODO: get person's descendants
+    // Craig TODO: get person's descendants
     break;
     case "restart":
     app(people); // restart
@@ -67,7 +70,7 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered
+  // Giancarlo TODO: find the person using the name they entered
   return foundPerson;
 }
 
@@ -83,7 +86,8 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  // Craig TODO: finish getting the rest of the information to display
+
   alert(personInfo);
 }
 
