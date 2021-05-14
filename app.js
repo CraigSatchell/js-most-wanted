@@ -13,7 +13,7 @@ function app(people) {
       break;
     case 'no':
       // (completed) Giancarlo TODO: search by traits
-      searchResults = searchByTraits(people); 
+      searchResults = searchByTraits(people);
       break;
     default:
       app(people); // restart app
@@ -38,10 +38,10 @@ function mainMenu(person, people) {
 
   switch (displayOption) {
     case "info":
-    // Craig TODO -  : get person's info
-    // create function to print out person info
-    // displayPerson()
-    break;
+      // Craig TODO -  : get person's info
+      // create function to print out person info
+      displayPerson(person[0], people)
+      break;
     case "family":
       // Craig TODO: get person's family
       //create a function to print out persons family 
@@ -62,12 +62,12 @@ function mainMenu(person, people) {
 function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
-  
+
 
   let foundPerson = people.filter(function (person) {
     if (person.firstName === firstName && person.lastName === lastName) {
       return true;
-      
+
     }
     else {
       return false;
@@ -75,7 +75,7 @@ function searchByName(people) {
   })
   // (completed) Giancarlo TODO: find the person using the name they entered
   return foundPerson;
-  
+
 }
 
 // alerts a list of people
@@ -85,7 +85,7 @@ function displayPeople(people) {
   }).join("\n"));
 }
 
-function displayPerson(person) {
+function displayPerson(person, people) {
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
@@ -153,17 +153,17 @@ function retrievePersonName(id, people) {
   return name;
 }
 //(completed) searchByTraits() Giancarlo
-function searchByTraits(people){
+function searchByTraits(people) {
   let gender = promptFor("What is the person's gender", chars); //string
   let height = promptFor("What is the person's height?", chars); //number
   let weight = promptFor("What is the person's weight", chars);//number
   let eyeColor = promptFor("What is the person's eye color", chars);//string
 
-  let foundPerson = people.filter(function(person){
-    if(person.gender === gender && person.height == height && person.weight == weight && person.eyeColor == eyeColor ){
+  let foundPerson = people.filter(function (person) {
+    if (person.gender === gender && person.height == height && person.weight == weight && person.eyeColor == eyeColor) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   })
