@@ -12,14 +12,14 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
-      // create searchbytrait function : 
+      // (completed) Giancarlo TODO: search by traits
+      searchResults = searchByTraits(people); 
       break;
       default:
     app(people); // restart app
       break;
   }
-  
+
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
@@ -33,13 +33,14 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  //person is an Array of objects [{...}]
+  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
-    // Giancarlo TODO -  : get person's info
+    // Craig TODO -  : get person's info
     // create function to print out person info
+    // displayPerson()
     break;
     case "family":
     // Craig TODO: get person's family
@@ -61,17 +62,20 @@ function mainMenu(person, people){
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
+  
 
   let foundPerson = people.filter(function(person){
     if(person.firstName === firstName && person.lastName === lastName){
       return true;
+      
     }
     else{
       return false;
     }
   })
-  // Giancarlo TODO: find the person using the name they entered
+  // (completed) Giancarlo TODO: find the person using the name they entered
   return foundPerson;
+  
 }
 
 // alerts a list of people
@@ -108,3 +112,23 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
+
+//(completed) searchByTraits() Giancarlo
+function searchByTraits(people){
+  let gender = promptFor("What is the person's gender", chars); //string
+  let height = promptFor("What is the person's height?", chars); //number
+  let weight = promptFor("What is the person's weight", chars);//number
+  let eyeColor = promptFor("What is the person's eye color", chars);//string
+
+  let foundPerson = people.filter(function(person){
+    if(person.gender === gender && person.height == height && person.weight == weight && person.eyeColor == eyeColor ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  // (completed)Giancarlo TODO: find the person using the traits entered
+  return foundPerson;
+}
+
