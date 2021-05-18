@@ -40,14 +40,17 @@ function mainMenu(person, people) {
     case "info":
       // Craig DONE: get person's info
       // create function to print out person info
-      displayPerson(person[0], people)
+      displayPerson(person[0], people);
       break;
     case "family":
       // Craig TODO: get person's family
       //create a function to print out persons family 
+      displayFamily(person[0], people);
       break;
     case "descendants":
       // Craig TODO: get person's descendants
+      displayDescendants(person[0], people);
+
       break;
     case "restart":
       app(people); // restart
@@ -150,11 +153,12 @@ function displayPerson(person, people) {
   alert(personInfo);
 }
 
-
-
-// TODO - display a person's descendants
-function displayDescendants() {
-
+// function that prompts and validates user input
+function promptFor(question, valid) {
+  do {
+    var response = prompt(question).trim();
+  } while (!response || !valid(response));
+  return response;
 }
 
 
@@ -192,70 +196,225 @@ function retrievePersonName(id, people) {
   console.log(name);
   return name;
 }
+//(completed) searchByTraits() Giancarlo
+function searchByTraits(people) {
+	let gender = prompt("What is the person's gender"); //string
+	let height = prompt("What is the person's height?"); //number
+	let weight = prompt("What is the person's weight"); //number
+	let eyeColor = prompt("What is the person's eye color");//string
+	let filterOn = false; // no filtered items by default
+
+	let foundPerson = people.filter(function (person) {
+		let filter = true;	// set default filter state
+		// build filtering criteria
+		if (gender.trim().length != 0) {
+			filter = filter && person.gender.toLowerCase() === gender.toLowerCase();
+			filterOn = true;
+		}
+
+		if (height != '') {
+			filter = filter && person.height === parseInt(height);
+			filterOn = true;
+			
+		}
+
+		if (weight != '') {
+			filter = filter && person.weight === parseInt(weight);
+			filterOn = true;
+		}
+
+		if (eyeColor.trim().length != 0) {
+			filter = filter && person.eyeColor.toLowerCase() === eyeColor.toLowerCase();
+			filterOn = true;
+		}
+		// check item before filtering
+		if (filter && filterOn) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	})
+	// (completed)Giancarlo TODO: find the person using the traits entered
+	return foundPerson; // return array of objects  (refactored by Craig)
+}
 
 
-// lookup descendants by id ( children and grand children ) - Craig
+//(completed) Craig - Look up descendants
 function lookupDescendants(id, people) { //lookup (children, grand children, and great grand children )
-  let offSpring = [];
-  for (let i = 0; i < people.length; i++) {
-    if (people[i].parents[0] === id || people[i].parents[1] === id) {
-      offSpring.push({ person: people[i], relation: 'child' });
-      for (let j = 0; j < people.length; j++) {
-        if (people[j].parents[0] === offSpring[offSpring.length - 1].person.id || people[j].parents[1] === offSpring[offSpring.length - 1].person.id) {
-          offSpring.push({ person: people[j], relation: 'grand-child' });
-          for (let k = 0; k < people.length; k++) {
-            if (people[k].parents[0] === offSpring[offSpring.length - 1].person.id || people[k].parents[1] === offSpring[offSpring.length - 1].person.id) {
-              offSpring.push({ person: people[k], relation: 'great-grand-child' });
-            }
-          }
-
-        }
-      }
-    }
-  }
-  return offSpring; // array of object
+	let offSpring = [];
+	for (let i = 0; i < people.length; i++) {
+		if (people[i].parents[0] === id || people[i].parents[1] === id) {
+			offSpring.push({ person: people[i], relation: 'child' });
+			for (let j = 0; j < people.length; j++) {
+				if (people[j].parents[0] === offSpring[offSpring.length - 1].person.id || people[j].parents[1] === offSpring[offSpring.length - 1].person.id) {
+					offSpring.push({ person: people[j], relation: 'grand-child' });
+					for (let k = 0; k < people.length; k++) {
+						if (people[k].parents[0] === offSpring[offSpring.length - 1].person.id || people[k].parents[1] === offSpring[offSpring.length - 1].person.id) {
+							offSpring.push({ person: people[k], relation: 'great-grand-child' });
+						}
+					}
+		
+				}
+			}
+		}
+	}
+	return offSpring; // array of object
 }
 
-
-// lookup siblings by id - Craig
 function lookupSiblings(id, people) {
-  let siblings = [];
-  let person = lookupPersonByID(id, people);
-  let found = false;
-  for (let i = 0; i < people.length; i++) {
-    if (person.parents.length != 0) {
-      if (((person.parents[0] !== undefined) && person.parents[0] === people[i].parents[0] || person.parents[0] === people[i].parents[1]) && people[i].id != id) {
-        found = true;
-      } else if (((person.parents[1] !== undefined) && person.parents[1] === people[i].parents[0] || person.parents[0] === people[i].parents[1]) && people[i].id != id) {
-        found = true;
-      } else {
-        found = false;
-      }
-      found ? siblings.push(people[i]) : siblings // append sibling
-    }
-  }
-  return siblings;
+	let siblings = [];
+	let person = lookupPersonByID(id, people);
+	let found = false;
+	if (person.parents.length !=0) {
+		for (let i = 0; i < people.length; i++){
+			if ((person.parents[0] === people[i].parents[0] || person.parents[0] === people[i].parents[1]) && people[i].id != id) {
+				found = true;
+			} else if ((person.parents[1] === people[i].parents[0] || person.parents[0] === people[i].parents[1])&& people[i].id != id) {
+				found = true;
+			} else {
+				found = false;
+			}
+			found ? siblings.push(people[i]) : siblings // append sibling
+		}
+	}
+	return siblings;
 }
 
 
-// entire family matrix for selected person - Craig
+
 function familyPerson(id, people) {
-  let person;
-  let parent1 = {};
-  let parent2 = {};
-  let descendants = [];
-  let siblings = [];
-  let currentSpouseDetails = {};
+	let person;
+	let parent1 = {};
+	let parent2 = {};
+	let descendants = [];
+	let siblings = [];
+	let spouseDetails = {};
 
-  person = lookupPersonByID(id, people);
-  parent1 = lookupPersonByID(person.parents[0], people);
-  parent2 = lookupPersonByID(person.parents[1], people);
-  descendants = lookupDescendants(id, people);
-  siblings = lookupSiblings(id, people)
-  spouseDetails = lookupPersonByID(person.currentSpouse, people);
-  return { ...person, descendants, siblings, currentSpouseDetails, parent1, parent2 };
+	person = lookupPersonByID(id, people);
+	parent1 = lookupPersonByID(person.parents[0], people);
+	parent2 = lookupPersonByID(person.parents[1], people);
+	descendants = lookupDescendants(id, people);
+	siblings = lookupSiblings(id, people)
+	spouseDetails = lookupPersonByID(person.currentSpouse, people);
+	return { ...person, descendants, siblings, spouseDetails, parent1, parent2 };
+}
+
+/*
+As a user, I want to be able look up someone’s descendants after I find them with the program (display the names of the descendants), using recursion
+*/
+
+
+function displayDescendants(person, people){
+  
+	let descendants = lookupDescendants(person.id, people);
+	let personDes =  person.firstName + "'s children are:\n+ ";
+
+	for (let i = 0 ; i < descendants.length; i++){
+		console.log(descendants[i].relation);
+
+		if (descendants[i].relation == "child"){
+		personDes += descendants[i].person.firstName + " + ";}
+	}
+
+	personDes += "\n" + person.firstName + "'s grand-children are:\n+ ";
+	for (let i = 0 ; i < descendants.length; i++){
+		if (descendants[i].relation == "grand-child"){
+		personDes += descendants[i].person.firstName + " + ";}
+	}
+	personDes += "\n" + person.firstName + "'s great-grand-children are:\n+ ";
+	for (let i = 0 ; i < descendants.length; i++){
+		if (descendants[i].relation == "great-grand-child"){
+		personDes += descendants[i].person.firstName + " + "};
+	}
+
+	alert(personDes);
+  }
+
+
+
+
+  /*
+   As a user, I want to be able look up someone’s immediate family members after I find them with the program (display the names of the family members and their relation to the found person. Parents, spouse, and siblings).
+   */
+
+function displayFamily(person, people){
+let family = familyPerson(person.id, people);
+let spouse = family.spouseDetails.firstName;
+let parents = {
+	"mom" : "unknown",
+	"dad" : "unknown" 
+}
+if(family.parent1){
+	if(family.parent1.gender == "female"){
+		parents.mom = family.parent1.firstName;
+	}
+	else if(family.parent1.gender == "male"){
+		parents.dad = family.parent1.firstName;
+	}
+}
+if(family.parent2){
+	if(family.parent2.gender == "female"){
+		parents.mom = family.parent2.firstName;
+	}
+	else if(family.parent2.gender == "male"){
+		parents.dad = family.parent2.firstName;
+	}
 }
 
 
 
- 
+let siblings = {
+	"sisters": [],
+	"brothers": []
+}
+let sisterCount = 0;
+let brotherCount = 0;
+
+
+if(family.siblings.length > 0){
+	
+for(let i = 0; i <  family.siblings.length; i++){
+	if(family.siblings[i].gender == "female"){
+		siblings.sisters.push(family.siblings[i].firstName);
+		sisterCount++;
+	}
+	if(family.siblings[i].gender == "male"){
+		siblings.brothers.push(family.siblings[i].firstName);
+		brotherCount++;
+	}
+}
+}
+if (sisterCount == 0){
+	siblings.sisters.push("unknown");
+}
+if (brotherCount == 0){
+	siblings.brothers.push("unknown");
+
+}
+
+
+let displayFamily = person.firstName + "'s parents are: \n";
+displayFamily += "dad: " + parents.dad + "\n";
+displayFamily += "mom: " + parents.mom + "\n";
+displayFamily += "sister(s): ";
+
+for( let i =0; i < siblings.sisters.length; i++){
+displayFamily += siblings.sisters[i] + " + ";
+}
+
+displayFamily += "\nbrother(s): ";
+
+for( let i =0; i < siblings.brothers.length; i++){
+	displayFamily += siblings.brothers[i] + " + ";
+	}
+
+if (spouse == null){
+	spouse = "unknown";
+}
+
+displayFamily += "\nspouse: " + spouse;
+
+alert(displayFamily);
+
+}
