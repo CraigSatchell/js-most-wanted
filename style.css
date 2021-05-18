@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  padding: 25px;
+}
+
+p {
+  width: 600px;
+  padding: 25px;
+  display: block;
+  margin: 0 auto;
+  text-align: left;
+  color: #000000;
+}
+
+div ul li {
+  margin: 0 auto;
+  display: flex;
+  color: #999999;
+  font-weight: 500;
+  list-style: none;
+  text-align: left;
+}
+
+div li span {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #999999;
+  text-align: right;
+}
+
+.header {
+  background: #999999;
+  color: #ffffff;
+  padding: 0;
+}
+
+.logo {
+  position: absolute;
+  padding: 25px 25px;
+  top: 0;
+  left: 0;
+}
+.wrapper {
+  padding: 50px;
+}
+
+#search {
+  text-align: center;
+}
+
+#search p {
+  text-align: left;
+}
+
+.SearchDetails {
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.butResponse ul {
+  margin: 0 auto;
+  display: block;
+  flex-direction: column;
+  width: 400px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.fade-out {
+  transition-delay: 3s;
+  transition-duration: 1.3s;
+  opacity: 0;
+}
+
+button:hover {
+  cursor: pointer;
+  background: #999999;
+  color: #ffffff;
+}
+
+button {
+  display: block;
+  border: 2px solid #999999;
+  background: #ffffff;
+  color: #999999;
+  font-weight: bolder;
+  font-size: 1rem;
+  margin: 0 auto;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 150px;
+}
+
+.buttons {
+  width: 200px;
+  margin: 15px;
+  margin: 15px auto;
+}
+
+.action_btn {
+  width: 200px;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+}
+
