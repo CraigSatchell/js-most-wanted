@@ -291,12 +291,14 @@ function familyPerson(id, people) {
 	let descendants = [];
 	let siblings = [];
 	let spouseDetails = {};
+  let offSpring = [];
 
 	person = lookupPersonByID(id, people);
 	parent1 = lookupPersonByID(person.parents[0], people);
 	parent2 = lookupPersonByID(person.parents[1], people);
-	descendants = lookupDescendants(id, people);
-	siblings = lookupSiblings(id, people)
+	//descendants = lookupDescendants(id, people);
+	descendants = recurseDescendantsV2(id, people, people.length, offSpring);
+  siblings = lookupSiblings(id, people)
 	spouseDetails = lookupPersonByID(person.currentSpouse, people);
 	return { ...person, descendants, siblings, spouseDetails, parent1, parent2 };
 }
@@ -427,4 +429,27 @@ displayFamily += "\nspouse: " + spouse;
 
 alert(displayFamily);
 
+}
+
+
+// Search by Trait Recursively
+
+
+function recurseDescendantsV2(id, people, limit, offSpring){
+	if (limit > 0) {
+		if (people[limit-1].parents[0] === id || people[limit-1].parents[1] === id) {
+			offSpring.push({ person: people[limit - 1], relation: 'child' });
+			for (let j = 0; j < people.length; j++) {
+				if (people[j].parents[0] === offSpring[offSpring.length - 1].person.id || people[j].parents[1] === offSpring[offSpring.length - 1].person.id) {
+					offSpring.push({ person: people[j], relation: 'grand-child' });
+					for (let k = 0; k < people.length; k++) {
+						if (people[k].parents[0] === offSpring[offSpring.length - 1].person.id || people[k].parents[1] === offSpring[offSpring.length - 1].person.id) {
+							offSpring.push({ person: people[k], relation: 'great-grand-child' });
+						}
+					}
+				}
+			}
+		}
+		return recurseDescendantsV2(id, people, limit-1, offSpring)
+	}
 }
