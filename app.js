@@ -120,6 +120,11 @@ function yesNo(input) {
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
+// helper functioon to pass into promptFor to validate user inputs and ignore case-sensitivity
+function nameCompare(input, databaseName){
+  
+}
+
 // helper function to pass in as default promptFor validation
 function chars(input) {
   return true; // default validation only
