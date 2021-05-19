@@ -38,7 +38,7 @@ function mainMenu(person, people) {
 
   switch (displayOption) {
     case "info":
-      // Craig TODO -  : get person's info
+      // Craig DONE: get person's info
       // create function to print out person info
       displayPerson(person[0], people);
       break;
@@ -88,11 +88,57 @@ function displayPeople(people) {
   }).join("\n"));
 }
 
+
+
+// function that prompts and validates user input
+function promptFor(question, valid) {
+  do {
+    var response = prompt(question).trim();
+  } while (!response || !valid(response));
+  return response;
+}
+
+// helper function to pass into promptFor to validate yes/no answers
+function yesNo(input) {
+  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
+}
+
+// helper function to pass in as default promptFor validation
+function chars(input) {
+  return true; // default validation only
+}
+
+
+
+/***********************************************************
+ * paired programming
+************************************************************/
+
+//(completed) searchByTraits() Giancarlo
+function searchByTraits(people) {
+  let gender = promptFor("What is the person's gender", chars); //string
+  let height = promptFor("What is the person's height?", chars); //number
+  let weight = promptFor("What is the person's weight", chars);//number
+  let eyeColor = promptFor("What is the person's eye color", chars);//string
+
+  let foundPerson = people.filter(function (person) {
+    if (person.gender === gender && person.height == height && person.weight == weight && person.eyeColor == eyeColor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  // (completed)Giancarlo TODO: find the person using the traits entered
+  return foundPerson;
+}
+
+
+// display person information - Craig
 function displayPerson(person, people) {
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+  let personInfo = "Name: " + person.firstName + " " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
   personInfo += "DOB: " + person.dob + "\n";
   personInfo += "Height: " + person.height + "\n";
@@ -115,10 +161,6 @@ function promptFor(question, valid) {
   return response;
 }
 
-// helper function to pass into promptFor to validate yes/no answers
-function yesNo(input) {
-  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
-}
 
 // helper functioon to pass into promptFor to validate user inputs and ignore case-sensitivity
 function nameCompare(input, databaseName){
@@ -131,10 +173,8 @@ function chars(input) {
 }
 
 
-/*****************************************
- * paired programming helper functions
- */
 
+// perform person lookup using id - Craig
 function lookupPersonByID(id, people) {
   let person = people.find(function (person) {
     if (person.id === id) {
@@ -147,6 +187,9 @@ function lookupPersonByID(id, people) {
   return person; // person
 }
 
+
+// return string containing person name
+// from lookup - Craig
 function retrievePersonName(id, people) {
   let person = lookupPersonByID(id, people);
   let name = "unknown";

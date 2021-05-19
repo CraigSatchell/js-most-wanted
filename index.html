@@ -2,11 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>devCodeCamp &middot; Most Wanted</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
   </head>
   <body>
-    <button onclick="app(data)">Start Searching</button>
-    <script src="data.js"></script>
-    <script src="app.js"></script>
-  </body>
+    <div class="header">
+       <h1>Most Wanted</h1>
+       <div class='logo'><img src="./images/most-wanted-logo.png"   height= "120" alt="most-wanted-logo"/></div>
+    </div>
+    <class="wrapper">
+       <p>Most Wanted is a demonstration application for Javascript. The goal is to demostrate as a aspiring software engineer command over some of Javascript's most useful features.</p>
+ 
+       <div id='actionButtons' class="buttons">
+          <div class="action_btn">
+             <button name="submit" class="action_btn submit" type="submit"
+                value="Search" onclick="app(data)">Start Search</button>&nbsp;&nbsp;
+
+          </div>
+       </div>
+       <div id="response"></div>
+       <script src="app.js"></script>
+       <script src="data.js"></script>
+ 
+ 
+ </body>
 </html>
