@@ -25,7 +25,7 @@ function app(people) {
 }
 
 // Menu function to call once you find who you are looking for
-function mainMenu(person, people) {
+function mainMenu(person, people) { //person is an array of multiple people
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
 
@@ -34,22 +34,35 @@ function mainMenu(person, people) {
     return app(people); // restart
   }
   //person is an Array of objects [{...}]
-  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let selection = 0;
+  let multipleMatches = [];
+  if(person.length > 1){
+    for( let i = 0; i< person.length; i++){
+      multipleMatches += "(" + i + ") " + person[i].firstName + " " + person[i].lastName + "\n";
+    }
+
+    selection = prompt("Found the following people, select the person you are looking for: \n" + multipleMatches);
+
+    console.log(selection);
+  }
+
+  
+  let displayOption = prompt("You've selected " + person[selection].firstName + " " + person[selection].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch (displayOption) {
     case "info":
       // Craig DONE: get person's info
       // create function to print out person info
-      displayPerson(person[0], people);
+      displayPerson(person[selection], people);
       break;
     case "family":
       // Craig TODO: get person's family
       //create a function to print out persons family 
-      displayFamily(person[0], people);
+      displayFamily(person[selection], people);
       break;
     case "descendants":
       // Craig TODO: get person's descendants
-      displayDescendants(person[0], people);
+      displayDescendants(person[selection], people);
 
       break;
     case "restart":
@@ -220,6 +233,9 @@ function searchByTraits(people) {
 			return false;
 		}
 	})
+
+  //end of people.filter
+
 	// (completed)Giancarlo TODO: find the person using the traits entered
 	return foundPerson; // return array of objects  (refactored by Craig)
 }
@@ -324,8 +340,17 @@ function displayDescendants(person, people){
    */
 
 function displayFamily(person, people){
+
+  //Missing: display children
+let spouse = "";
 let family = familyPerson(person.id, people);
-let spouse = family.spouseDetails.firstName;
+if (family.spouseDetails == undefined){
+  spouse = "none";
+}
+else{
+ spouse = family.spouseDetails.firstName;
+}
+
 let parents = {
 	"mom" : "unknown",
 	"dad" : "unknown" 
