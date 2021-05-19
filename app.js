@@ -63,12 +63,12 @@ function mainMenu(person, people) {
 }
 
 function searchByName(people) {
-  let firstName = promptFor("What is the person's first name?", chars);
-  let lastName = promptFor("What is the person's last name?", chars);
+  let firstName = promptFor("What is the person's first name?", chars).toLowerCase();
+  let lastName = promptFor("What is the person's last name?", chars).toLowerCase();
 
 
   let foundPerson = people.filter(function (person) {
-    if (person.firstName === firstName && person.lastName === lastName) {
+    if (person.firstName.toLowerCase() === firstName && person.lastName.toLowerCase() === lastName) {
       return true;
 
     }
@@ -113,25 +113,6 @@ function chars(input) {
 /***********************************************************
  * paired programming
 ************************************************************/
-
-//(completed) searchByTraits() Giancarlo
-function searchByTraits(people) {
-  let gender = promptFor("What is the person's gender", chars); //string
-  let height = promptFor("What is the person's height?", chars); //number
-  let weight = promptFor("What is the person's weight", chars);//number
-  let eyeColor = promptFor("What is the person's eye color", chars);//string
-
-  let foundPerson = people.filter(function (person) {
-    if (person.gender === gender && person.height == height && person.weight == weight && person.eyeColor == eyeColor) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  })
-  // (completed)Giancarlo TODO: find the person using the traits entered
-  return foundPerson;
-}
 
 
 // display person information - Craig
